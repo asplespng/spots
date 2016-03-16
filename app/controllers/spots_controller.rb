@@ -23,6 +23,15 @@ class SpotsController < ApplicationController
   def edit
     # todo scope user
     @users =  User.order(:email)
+    if @spot.geocoded?
+      map_location = MapLocation.new(latitude: @spot.latitude, longitude: @spot.longitude)
+      map = GoogleStaticMap.new(zoom: 15,
+                                width: 640,
+                                height: 200,
+                                center: map_location )
+      map.markers << MapMarker.new(color: "red", location: map_location)
+      @image_url = map.url(:auto)
+    end
   end
 
   # POST /spots

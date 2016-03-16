@@ -3,7 +3,9 @@ $ ->
   div_address = $("#div_address")
   latitude = $("#spot_latitude")
   longitude = $("#spot_longitude")
-  div_address.hide()
+  if check_box.prop('checked')
+    longitude.attr('disabled', true)
+    latitude.attr('disabled', true)
   check_box.change ->
     if $(this).prop("checked")
       div_address.show()

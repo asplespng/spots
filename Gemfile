@@ -19,6 +19,7 @@ gem 'pg'
 gem 'pundit'
 gem 'simple_form'
 gem 'geocoder'
+gem 'googlestaticmap'
 group :development do
   gem 'better_errors'
   gem 'html2haml'

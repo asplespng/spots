@@ -3,7 +3,7 @@ class Spot < ActiveRecord::Base
   geocoded_by :address
   after_validation :geocode, if: :should_geocode?
 
-  attr_accessor :use_address
+  attr_writer :use_address
 
 
   def self.us_states
@@ -80,5 +80,9 @@ class Spot < ActiveRecord::Base
 
   def should_geocode?
     address_changed? && address.present?
+  end
+
+  def use_address
+    address.present?
   end
 end
