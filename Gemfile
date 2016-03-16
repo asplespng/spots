@@ -18,6 +18,7 @@ gem 'high_voltage'
 gem 'pg'
 gem 'pundit'
 gem 'simple_form'
+gem 'geocoder'
 group :development do
   gem 'better_errors'
   gem 'html2haml'

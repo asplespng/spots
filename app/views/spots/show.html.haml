@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Latitude:
+  = @spot.latitude
+%p
+  %b Longitude:
+  = @spot.longitude
+%p
+  %b Radius:
+  = @spot.radius
+
+= link_to 'Edit', edit_spot_path(@spot)
+\|
+= link_to 'Back', spots_path

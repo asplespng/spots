@@ -1,0 +1,18 @@
+= simple_form_for(@spot) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :latitude
+    = f.input :longitude
+    = f.input :use_address, as: :boolean
+    %div#div_address
+      = f.input :address_1
+      = f.input :address_2
+      = f.input :city
+      = f.input :state, collection: Spot.us_states
+      = f.input :zip
+    = f.input :radius
+    = f.association :user, collection: @users, value_method: :id, label_method: :email, prompt: "Choose a User"
+
+  .form-actions
+    = f.button :submit
