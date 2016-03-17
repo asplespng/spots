@@ -1,5 +1,6 @@
 class SpotsController < ApplicationController
   before_action :set_spot, only: [:show, :edit, :update, :destroy]
+  before_action :set_users, only: [:new, :create, :edit, :update]
 
   # GET /spots
   # GET /spots.json
@@ -15,14 +16,11 @@ class SpotsController < ApplicationController
   # GET /spots/new
   def new
     @spot = Spot.new
-    # todo scope user
-    @users =  User.order(:email)
   end
 
   # GET /spots/1/edit
   def edit
     # todo scope user
-    @users =  User.order(:email)
     if @spot.geocoded?
       map_location = MapLocation.new(latitude: @spot.latitude, longitude: @spot.longitude)
       map = GoogleStaticMap.new(zoom: 15,
@@ -80,8 +78,12 @@ class SpotsController < ApplicationController
       @spot = Spot.find(params[:id])
     end
 
+    def set_users
+      @users = User.order(:email)
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def spot_params
-      params.require(:spot).permit(:latitude, :longitude, :radius, :user_id, :address_1, :address_2, :city, :state, :zip)
+      params.require(:spot).permit(:latitude, :longitude, :radius, :user_id, :address_1, :address_2, :city, :state, :zip, :use_address)
     end
 end

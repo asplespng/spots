@@ -1,10 +1,13 @@
 class Spot < ActiveRecord::Base
   belongs_to :user
   geocoded_by :address
-  after_validation :geocode, if: :should_geocode?
-
   attr_writer :use_address
 
+  validates :address_1, :city, :state, :zip, presence: true, if: :validate_address?
+  validates :latitude, :longitude, presence: true, if: :validate_coordinates?
+
+  after_validation :maybe_clear_address
+  after_validation :geocode, if: :should_geocode?
 
   def self.us_states
     [
@@ -74,6 +77,18 @@ class Spot < ActiveRecord::Base
     address
   end
 
+  def use_address
+    @use_address || (address.present? ? "1": "0")
+  end
+
+  def validate_address?
+    use_address == "1"
+  end
+
+  def validate_coordinates?
+    use_address == "0"
+  end
+
   def address_changed?
     address_1_changed? || address_2_changed? || city_changed? || state_changed? || zip_changed?
   end
@@ -82,7 +97,13 @@ class Spot < ActiveRecord::Base
     address_changed? && address.present?
   end
 
-  def use_address
-    address.present?
+  def maybe_clear_address
+    if use_address == "0"
+      self.address_1 = nil
+      self.address_2 = nil
+      self.city = nil
+      self.zip = nil
+      self.state = nil
+    end
   end
 end

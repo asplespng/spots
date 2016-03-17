@@ -6,6 +6,8 @@ $ ->
   if check_box.prop('checked')
     longitude.attr('disabled', true)
     latitude.attr('disabled', true)
+  else
+    div_address.hide()
   check_box.change ->
     if $(this).prop("checked")
       div_address.show()
