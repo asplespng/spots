@@ -7,3 +7,8 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 user = CreateAdminService.new.call
 puts 'CREATED ADMIN USER: ' << user.email
+if Rails.env.development?
+    user = User.create!(email: 'user@example.com', password: 'password', password_confirmation: 'password', confirmed_at: Time.current)
+  puts "CREATED USER: #{user.email}"
+end
+

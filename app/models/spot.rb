@@ -5,6 +5,7 @@ class Spot < ActiveRecord::Base
 
   validates :address_1, :city, :state, :zip, presence: true, if: :validate_address?
   validates :latitude, :longitude, presence: true, if: :validate_coordinates?
+  validates :name, :user, presence: true
 
   after_validation :maybe_clear_address
   after_validation :geocode, if: :should_geocode?

@@ -1,11 +1,12 @@
 class SpotsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_spot, only: [:show, :edit, :update, :destroy]
   before_action :set_users, only: [:new, :create, :edit, :update]
 
   # GET /spots
   # GET /spots.json
   def index
-    @spots = Spot.all
+    @spots = policy_scope(Spot).all
   end
 
   # GET /spots/1
@@ -35,7 +36,9 @@ class SpotsController < ApplicationController
   # POST /spots
   # POST /spots.json
   def create
-    @spot = Spot.new(spot_params)
+    @spot = Spot.new
+    @spot.assign_attributes(permitted_attributes(@spot))
+    @spot.user_id = current_user.id unless current_user.admin?
 
     respond_to do |format|
       if @spot.save
@@ -52,7 +55,7 @@ class SpotsController < ApplicationController
   # PATCH/PUT /spots/1.json
   def update
     respond_to do |format|
-      if @spot.update(spot_params)
+      if @spot.update(permitted_attributes(@spot))
         format.html { redirect_to @spot, notice: 'Spot was successfully updated.' }
         format.json { render :show, status: :ok, location: @spot }
       else
@@ -75,15 +78,10 @@ class SpotsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_spot
-      @spot = Spot.find(params[:id])
+      @spot = policy_scope(Spot).find(params[:id])
     end
 
     def set_users
-      @users = User.order(:email)
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def spot_params
-      params.require(:spot).permit(:latitude, :longitude, :radius, :user_id, :address_1, :address_2, :city, :state, :zip, :use_address)
+      @users = policy_scope(User).order(:email)
     end
 end

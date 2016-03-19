@@ -3,6 +3,7 @@
   = f.error_notification
 
   .form-inputs
+    = f.input :name
     = f.input :latitude
     = f.input :longitude
     = f.input :use_address, as: :boolean
@@ -13,7 +14,7 @@
       = f.input :state, collection: Spot.us_states
       = f.input :zip
     = f.input :radius
-    = f.association :user, collection: @users, value_method: :id, label_method: :email, prompt: "Choose a User"
+    = f.association :user, collection: @users, value_method: :id, label_method: :email, prompt: "Choose a User" if current_user.admin?
 
   .form-actions
     = f.button :submit
