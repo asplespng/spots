@@ -1,7 +1,8 @@
 %h1 Editing spot
-.row
-  .col-md-12
-    =image_tag @image_url
+-if @spot.geocoded?
+  .row
+    .col-md-12
+      =image_tag @spot.large_image_tag, class: 'img-rounded'
 .row
 
 = render 'form'

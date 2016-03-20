@@ -1,11 +1,12 @@
 %h1 Listing spots
 
-%table
+%table.table.table-striped.table-bordered
   %thead
     %tr
+      %th.text-center Image
       %th Latitude
       %th Longitude
-      %th Radius
+      %th User
       %th
       %th
       %th
@@ -13,9 +14,10 @@
   %tbody
     - @spots.each do |spot|
       %tr
+        %td= link_to image_tag(spot.small_image_tag), edit_spot_path(spot), class: 'img-rounded'
         %td= spot.latitude
         %td= spot.longitude
-        %td= spot.radius
+        %td= spot.user.email
         %td= link_to 'Show', spot
         %td= link_to 'Edit', edit_spot_path(spot)
         %td= link_to 'Destroy', spot, :method => :delete, :data => { :confirm => 'Are you sure?' }

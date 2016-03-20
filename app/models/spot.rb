@@ -3,9 +3,11 @@ class Spot < ActiveRecord::Base
   geocoded_by :address
   attr_writer :use_address
 
+  enum zoom_level: { building: 20, street: 15, city: 10, region: 5, continent: 3 }
+
   validates :address_1, :city, :state, :zip, presence: true, if: :validate_address?
   validates :latitude, :longitude, presence: true, if: :validate_coordinates?
-  validates :name, :user, presence: true
+  validates :name, :user, :zoom_level, presence: true
 
   after_validation :maybe_clear_address
   after_validation :geocode, if: :should_geocode?
@@ -105,6 +107,31 @@ class Spot < ActiveRecord::Base
       self.city = nil
       self.zip = nil
       self.state = nil
+    end
+  end
+
+  def large_image_tag
+    if geocoded?
+      map_location = MapLocation.new(latitude: latitude, longitude: longitude)
+      map = GoogleStaticMap.new(zoom: Spot.zoom_levels[zoom_level],
+                                width: 400,
+                                height: 400,
+                                center: map_location )
+      map.markers << MapMarker.new(color: "red", location: map_location)
+      map.url(:auto)
+    end
+  end
+
+  def small_image_tag
+    if geocoded?
+      map_location = MapLocation.new(latitude: latitude, longitude: longitude)
+      map = GoogleStaticMap.new(zoom: Spot.zoom_levels[zoom_level],
+                                width: 75,
+                                height: 75,
+                                scale: 2,
+                                center: map_location )
+      map.markers << MapMarker.new(color: "red", location: map_location)
+      map.url(:auto)
     end
   end
 end

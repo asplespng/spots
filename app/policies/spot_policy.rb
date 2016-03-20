@@ -10,7 +10,7 @@ class SpotPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    attribs = [:latitude, :longitude, :radius, :address_1, :address_2, :city, :state, :zip, :use_address, :name]
+    attribs = [:latitude, :longitude, :zoom_level, :radius, :address_1, :address_2, :city, :state, :zip, :use_address, :name]
     if user.admin?
       attribs << :user_id
     end

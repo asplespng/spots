@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160319003739) do
+ActiveRecord::Schema.define(version: 20160320010624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,15 +20,16 @@ ActiveRecord::Schema.define(version: 20160319003739) do
     t.float    "latitude"
     t.float    "longitude"
     t.float    "radius"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id",    null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "user_id",                 null: false
     t.string   "address_1"
     t.string   "address_2"
     t.string   "city"
     t.integer  "zip"
     t.string   "state"
-    t.string   "name",       null: false
+    t.string   "name",                    null: false
+    t.integer  "zoom_level", default: 10, null: false
   end
 
   add_index "spots", ["user_id"], name: "index_spots_on_user_id", using: :btree
