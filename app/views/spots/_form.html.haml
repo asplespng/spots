@@ -15,7 +15,7 @@
       = f.input :state, collection: Spot.us_states
       = f.input :zip
     = f.input :radius
-    = f.association :user, collection: @users, value_method: :id, label_method: :email, prompt: "Choose a User" if current_user.admin?
+    = f.association :user, collection: policy_scope(User).order(:email).map{|user| [user.email, user.id]}, prompt: "Choose a User" if current_user.admin?
 
   .form-actions
     = f.button :submit

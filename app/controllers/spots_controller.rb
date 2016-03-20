@@ -1,7 +1,6 @@
 class SpotsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_spot, only: [:show, :edit, :update, :destroy]
-  before_action :set_users, only: [:new, :create, :edit, :update]
 
   # GET /spots
   # GET /spots.json
@@ -69,9 +68,5 @@ class SpotsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_spot
       @spot = policy_scope(Spot).find(params[:id])
-    end
-
-    def set_users
-      @users = policy_scope(User).order(:email)
     end
 end
