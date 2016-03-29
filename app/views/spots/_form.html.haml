@@ -4,7 +4,7 @@
 
   .form-inputs
     = f.input :name
-    = f.input :zoom_level, collection: Spot.zoom_levels.keys.map {|level| [level.capitalize, level]}, include_blank: false
+    = f.input :zoom_level, collection: Spot.zoom_levels.keys, label_method: :humanize, include_blank: false
     = f.input :latitude
     = f.input :longitude
     = f.input :use_address, as: :boolean
